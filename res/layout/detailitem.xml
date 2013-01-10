@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="@layout/gradient_hover"
+android:orientation="horizontal"
+android:padding="5dip"
+android:dither="true"
+android:id="@+id/detail" >
+
+<ImageView 
+    android:id="@+id/img" 
+    android:layout_width="100dp" 
+    android:layout_height="100dp" 
+    android:layout_gravity="center_horizontal" 
+    android:adjustViewBounds="true" 
+    android:layout_centerHorizontal="true" />
+
+<TextView 
+    android:id="@+id/title" 
+    android:textStyle="bold|italic"   
+    android:layout_below="@+id/img" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/subtitle"   
+    android:layout_below="@+id/title"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/classification"   
+    android:layout_below="@+id/subtitle"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/gmd"   
+    android:layout_below="@+id/classification"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/language"   
+    android:layout_below="@+id/gmd"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/publisher"   
+    android:layout_below="@+id/language"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/dateissued"   
+    android:layout_below="@+id/publisher"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/nodename"   
+    android:layout_below="@+id/dateissued"
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content" />
+
+<TextView 
+    android:id="@+id/hidden"
+    android:layout_below="@+id/nodename" 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:visibility="gone" />
+ 
+</RelativeLayout> 

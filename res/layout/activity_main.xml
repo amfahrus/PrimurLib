@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+ 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ 	    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+ 	    android:descendantFocusability="beforeDescendants"
+		android:focusableInTouchMode="true"
+	    android:layout_width="fill_parent"
+	    android:layout_height="65dp"
+	    android:orientation="horizontal"
+	    android:id="@+id/form" >
+
+	    <Button
+	        android:id="@+id/more"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:drawableTop="@drawable/reload"
+	        android:textColor="#615c5c"
+	        android:text="Reload" />
+
+	    <Button
+	        android:id="@+id/search"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+	        android:layout_alignParentTop="true"
+	        android:layout_toRightOf="@+id/more"
+	        android:drawableTop="@drawable/search"
+	        android:textColor="#615c5c"
+	        android:text="Search" />
+
+	    <Button
+	        android:id="@+id/site"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+	        android:layout_alignParentTop="true"
+	        android:layout_toRightOf="@+id/search"
+	        android:drawableTop="@drawable/globe"
+	        android:textColor="#615c5c"
+	        android:text="Website" />
+
+	    <Button
+	        android:id="@+id/exit"
+	        android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+	        android:layout_alignParentTop="true"
+	        android:layout_toRightOf="@+id/site"
+	        android:drawableTop="@drawable/power"
+	        android:textColor="#615c5c"
+	        android:text="Exit" />
+
+	</LinearLayout>
+	
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:id="@+id/list" 
+	    android:layout_below="@+id/form" > 
+	    
+	    <ListView
+	        android:id="@+id/mylistview"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:dither="true"
+	        android:divider="#b5b5b5"
+	        android:dividerHeight="1dp"
+	        android:listSelector="@layout/list_selector" />
+	
+	</RelativeLayout>
+	
+</RelativeLayout>
