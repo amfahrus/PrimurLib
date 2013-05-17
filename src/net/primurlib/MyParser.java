@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -23,12 +24,12 @@ public class MyParser {
 	String[] temp=null;
 	URL url=null;
 	
-	Log.d("I m Here","2");
+	//Log.d("I m Here","2");
 	try {
 	url = new URL(fetchurl);
 	} catch (MalformedURLException e) {
 	// TODO Auto-generated catch block
-	Log.d("I got Exception","3");
+	//Log.d("I got Exception","3");
 	e.printStackTrace();
 	}
 	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -38,33 +39,48 @@ public class MyParser {
 	}
 	catch (ParserConfigurationException e1) {
 	e1.printStackTrace();
-	Log.d("I m Here","4");
+	//Log.d("I m Here","4");
 	}
 	Document doc=null;
 	try {
 	doc = db.parse(new InputSource(url.openStream()));
 	} catch (SAXException e2) {
 	// TODO Auto-generated catch block
-	Log.d("I m Here","5");
+	//Log.d("I m Here","5");
 	e2.printStackTrace();
 	} catch (IOException e3) {
 	// TODO Auto-generated catch block
-	Log.d("I m Here","6");
+	//Log.d("I m Here","6");
 	e3.printStackTrace();
 	}
 	org.w3c.dom.Element elt=doc.getDocumentElement();
 	NodeList nodeList = elt.getElementsByTagName(roottag);
 	temp=new String[nodeList.getLength()];
-	Log.d("the length of nodelist",Integer.toString(nodeList.getLength()));
+	//Log.d("the length of nodelist",Integer.toString(nodeList.getLength()));
 
 
 	for (int i = 0; i < nodeList.getLength(); i++)
 	{
+	/*
+	Element e = (Element) nodeList.item(i);
+	NodeList node = e.getElementsByTagName(parseelemntchild);
+	Node elem = node.item(0);
+	Node child;
+	if(elem != null){
+        if (elem.hasChildNodes()){
+            for( child = elem.getFirstChild(); child != null; child = child.getNextSibling() ){
+                if( child.getNodeType() == Node.TEXT_NODE ){
+                	temp[i] = (child.getNodeValue() != null) ? child.getNodeValue() : "";
+                }
+            }
+        }
+    }
+    */
 	
 	Node node = nodeList.item(i);
-
+	
 	NodeList titleList = node.getChildNodes();
-	Log.d("The length of titlelist",Integer.toString(titleList.getLength()));
+	//Log.d("The length of titlelist",Integer.toString(titleList.getLength()));
 
 		for(int j=0;j<titleList.getLength();j++)
 		{
@@ -73,26 +89,28 @@ public class MyParser {
 	
 			if (name.equalsIgnoreCase(parseelemnt)) {
 		
-			Log.d("J value"," "+j);
-			temp[i]=node1.getFirstChild().getNodeValue();
+			//Log.d("J value"," "+j);
+			temp[i]=(node1.getFirstChild().getNodeValue() != null) ? node1.getFirstChild().getNodeValue() : "";
 			NodeList elmList = node1.getChildNodes();
-			Log.d("temp value",temp[i]);
-			
-				for(int k=0;k<elmList.getLength();k++)
-				{
-				Node node2= elmList.item(k);
-				String child = node2.getNodeName();
-			
-					if (child.equalsIgnoreCase(parseelemntchild)) {
+			//Log.d("temp value",temp[i]);
+				if (node1.hasChildNodes()) {
+					for(int k=0;k<elmList.getLength();k++)
+					{
+					Node node2= elmList.item(k);
+					String child = node2.getNodeName();
 				
-					Log.d("k value"," "+k);
-					temp[i]=node2.getFirstChild().getNodeValue();
-				
-					Log.d("temp value",temp[i]);
+						if (child.equalsIgnoreCase(parseelemntchild)) {
+					
+						//Log.d("k value"," "+k);
+						temp[i]=(node2.getFirstChild().getNodeValue() != null) ? node2.getFirstChild().getNodeValue() : "";
+					
+						//Log.d("temp value",temp[i]);
+						}
 					}
 				}
 			}
 		}
+	
 	}
 
 	return(temp);
