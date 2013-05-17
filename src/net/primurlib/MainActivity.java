@@ -1,11 +1,15 @@
 package net.primurlib;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
@@ -29,36 +33,45 @@ public class MainActivity extends Activity {
 	MyAdapter adapt_obj=null; 
 	Context myref=null;
     int current_page = 1;
+    static final int tampil_error=1;
     
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_main);
-	list = true;
-	moreListenerOnButton();
-	searchListenerOnButton();
-	websiteListenerOnButton();
-	exitListenerOnButton();
-	listcomp=(ListView)findViewById(R.id.mylistview); 
-	uri = "http://primurlib.net/index.php?resultXML=true&page="+ current_page + uri_param;
-	listcomp.setOnItemClickListener(new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //View current = listcomp.getChildAt(position);
-        	TextView strVal = (TextView)view.findViewById(R.id.hidden);
-        	String item = strVal.getText().toString();
-        	uri = "http://primurlib.net/index.php?p=show_detail&inXML=true&id=" + item;
-        	//Toast.makeText(MainActivity.this, "ID '" + uri + "' was clicked.", Toast.LENGTH_LONG).show(); 
+	if (cek_status(this)) 
+	{
+		list = true;
+		moreListenerOnButton();
+		searchListenerOnButton();
+		websiteListenerOnButton();
+		exitListenerOnButton();
+		listcomp=(ListView)findViewById(R.id.mylistview); 
+		uri = "http://primurlib.net/index.php?resultXML=true&page="+ current_page + uri_param;
+		listcomp.setOnItemClickListener(new OnItemClickListener() {
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	            //View current = listcomp.getChildAt(position);
+	        	TextView strVal = (TextView)view.findViewById(R.id.hidden);
+	        	String item = strVal.getText().toString();
+	        	uri = "http://primurlib.net/index.php?p=show_detail&inXML=true&id=" + item;
+	        	//Toast.makeText(MainActivity.this, "ID '" + uri + "' was clicked.", Toast.LENGTH_LONG).show(); 
 
-        	btn_more=(Button)findViewById(R.id.more);
-        	btn_more.setText("Back");
-        	list = false;
-        	loadProses();
-           
-        }
-    });
-	loadProses();
+	        	btn_more=(Button)findViewById(R.id.more);
+	        	btn_more.setText("Back");
+	        	list = false;
+	        	loadProses();
+	           
+	        }
+	    });
+		loadProses();
+	} 
+	else 
+	{
+	//Toast.makeText(MainActivity.this, "No Connectivity", Toast.LENGTH_LONG).show();
+		showDialog(tampil_error);
+	}
 
 	}
 	
@@ -74,15 +87,19 @@ public class MainActivity extends Activity {
 	@Override
 	protected Void doInBackground(Void... params) {
 	// TODO Auto-generated method stub
-	  adapt_obj=new MyAdapter(myref,uri);
-
+	  try {
+		  adapt_obj=new MyAdapter(myref,uri);
+	    }
+	    catch (Exception e) {
+	    	e.printStackTrace();
+	    }
 	return null;
 	}
 
 	@Override
 	protected void onPreExecute()
 	{
-	dialog.setMessage("Loading ...");
+	dialog.setMessage("Loading...");
 	dialog.show();
 	dialog.setCancelable(false);
 	}
@@ -195,5 +212,49 @@ public class MainActivity extends Activity {
 		alert.show();
 		
 	}
+	
+    public boolean cek_status(Context cek) {
+    	ConnectivityManager cm = (ConnectivityManager) cek.getSystemService(Context.CONNECTIVITY_SERVICE);
+    	NetworkInfo info = cm.getActiveNetworkInfo();
 
+		if (info != null && info.isConnected())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+    @Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+		switch (id) {
+		case tampil_error:
+			AlertDialog.Builder errorDialog = new AlertDialog.Builder(this);
+			errorDialog.setTitle("Connection Error");
+			errorDialog.setMessage("No Internet Connection");
+			errorDialog.setNeutralButton("Exit",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.dismiss();
+							Intent exit = new Intent(Intent.ACTION_MAIN);
+							exit.addCategory(Intent.CATEGORY_HOME);
+							exit.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							MainActivity.this.finish();
+							startActivity(exit);
+						}
+					});
+
+			AlertDialog errorAlert = errorDialog.create();
+			return errorAlert;
+
+		default:
+			break;
+		}
+		return dialog;
+	}
 }
