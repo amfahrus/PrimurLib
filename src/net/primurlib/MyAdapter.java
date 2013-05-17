@@ -26,7 +26,7 @@ public class MyAdapter extends BaseAdapter{
 	
 	MyAdapter(Context c,String url)
 	{
-	Log.d("1","1");
+	//Log.d("1","1");
 	mycontext=c;
 	inflation=LayoutInflater.from(mycontext);
 	myparseobj=new MyParser();
@@ -49,7 +49,7 @@ public class MyAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 	// TODO Auto-generated method stub
-	Log.d("title_array",title_array.length+"");
+	//Log.d("title_array",title_array.length+"");
 	return title_array.length;
 	}
 
